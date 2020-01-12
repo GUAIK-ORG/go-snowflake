@@ -1,4 +1,4 @@
-# 🌀GO-Snowflake
+# ❄️ GO-Snowflake
 
 ## Snowflake简介
 
