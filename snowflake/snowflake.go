@@ -10,7 +10,7 @@ import (
 
 const (
 	epoch             = int64(1577808000000)                           // 设置起始时间：2020-01-01 00:00:00，有效期69年
-	timestampBits     = uint(41)                                       // 纪元占用位数
+	timestampBits     = uint(41)                                       // 时间戳占用位数
 	datacenteridBits  = uint(5)                                        // 数据中心id所占位数
 	workeridBits      = uint(5)                                        // 机器id所占位数
 	sequenceBits      = uint(12)                                       // 序列所占的位数
