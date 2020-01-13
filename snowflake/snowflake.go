@@ -88,14 +88,13 @@ func GetTimestamp(sid int64) (timestamp int64) {
 	return
 }
 
-// 获取创建ID的时间戳
+// 获取创建ID时的时间戳
 func GetGenTimestamp(sid int64) (timestamp int64) {
-	t := GetTimestamp(sid)
-	timestamp = t + epoch
+	timestamp = GetTimestamp(sid) + epoch
 	return
 }
 
-// 获取创建ID的时间字符串(精度：秒)
+// 获取创建ID时的时间字符串(精度：秒)
 func GetGenTime(sid int64) (t string) {
 	// 需将GetGenTimestamp获取的时间戳/1000转换成秒
 	t = time.Unix(GetGenTimestamp(sid)/1000, 0).Format("2006-01-02 15:04:05")

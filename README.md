@@ -25,3 +25,81 @@ Twitter设计了Snowflake算法为分布式系统生成ID,Snowflake的id是int64
 ### 运行
 
 `go run main.go`
+
+## 使用说明
+
+### 创建Snowflake对象
+
+```go
+// NewSnowflake(datacenterid, workerid int64) (*Snowflake, error)
+// 参数1 (int64): 数据中心ID (可用范围:0-31)
+// 参数2 (int64): 机器ID    (可用范围:0-31)
+// 返回1 (*Snowflake): Snowflake对象 | nil
+// 返回2 (error): 错误码
+s, err := snowflake.NewSnowflake(int64(0), int64(0))
+if err != nil {
+    glog.Error(err)
+    return
+}
+```
+
+### 生成唯一ID
+
+```go
+s, err := snowflake.NewSnowflake(int64(0), int64(0))
+// ......
+// (s *Snowflake) NextVal() int64
+// 返回1 (int64): 唯一ID
+id := s.NextVal()
+// ......
+```
+
+### 通过ID获取数据中心ID与机器ID
+
+```go
+// ......
+// GetDeviceID(sid int64) (datacenterid, workerid int64)
+// 参数1 (int64): 唯一ID
+// 返回1 (int64): 数据中心ID
+// 返回2 (int64): 机器ID
+datacenterid, workerid := snowflake.GetDeviceID(id))
+```
+
+### 通过ID获取时间戳（创建ID时的时间戳 - epoch）
+
+```go
+// ......
+// GetTimestamp(sid int64) (timestamp int64)
+// 参数1 (int64): 唯一ID
+// 返回1 (int64): 从epoch开始计算的时间戳
+t := snowflake.GetTimestamp(id)
+```
+
+### 通过ID获取生成ID时的时间戳
+
+```go
+// ......
+// GetGenTimestamp(sid int64) (timestamp int64)
+// 参数1 (int64): 唯一ID
+// 返回1 (int64): 唯一ID生成时的时间戳
+t := snowflake.GetGenTimestamp(id)
+```
+
+### 通过ID获取生成ID时的时间（精确到：秒）
+
+```go
+// ......
+// GetGenTime(sid int64)
+// 参数1 (int64): 唯一ID
+// 返回1 (string): 唯一ID生成时的时间
+tStr := snowflake.GetGenTime(id)
+```
+
+### 查看时间戳字段使用占比（41bit能存储的范围：从epoch开始往后69年）
+
+```go
+// ......
+// GetTimestampStatus() (state float64)
+// 返回1 (float64): 时间戳字段使用占比（范围 0.0 - 1.0）
+status := snowflake.GetTimestampStatus()
+```
