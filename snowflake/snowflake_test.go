@@ -29,3 +29,15 @@ func TestNextVal(t *testing.T) {
 		}
 	}
 }
+
+func TestGetDeviceID(t *testing.T) {
+	s, err := NewSnowflake(28, 11)
+	if err != nil {
+		t.Error(err)
+	}
+	val := s.NextVal()
+	datacenterid, workerid := GetDeviceID(val)
+	if datacenterid != 28 || workerid != 11 {
+		t.Fail()
+	}
+}

@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	epoch             = int64(1577808000000)                           // 设置起始时间：2020-01-01 00:00:00，有效期69年
+	epoch             = int64(1577808000000)                           // 设置起始时间(时间戳/毫秒)：2020-01-01 00:00:00，有效期69年
 	timestampBits     = uint(41)                                       // 时间戳占用位数
 	datacenteridBits  = uint(5)                                        // 数据中心id所占位数
 	workeridBits      = uint(5)                                        // 机器id所占位数
@@ -47,7 +47,7 @@ func NewSnowflake(datacenterid, workerid int64) (*Snowflake, error) {
 }
 
 func (s *Snowflake) NextVal() int64 {
-	now := time.Now().UnixNano() / 1000000
+	now := time.Now().UnixNano() / 1000000 // 转毫秒
 	s.Lock()
 	if s.timestamp == now {
 		// 当同一时间戳（精度：毫秒）下多次生成id会增加序列号
@@ -73,4 +73,37 @@ func (s *Snowflake) NextVal() int64 {
 	r := int64((t)<<timestampShift | (s.datacenterid << datacenteridShift) | (s.workerid << workeridShift) | (s.sequence))
 	s.Unlock()
 	return r
+}
+
+// 获取数据中心ID和机器ID
+func GetDeviceID(sid int64) (datacenterid, workerid int64) {
+	datacenterid = (sid >> datacenteridShift) & datacenteridMax
+	workerid = (sid >> workeridShift) & workeridMax
+	return
+}
+
+// 获取时间戳
+func GetTimestamp(sid int64) (timestamp int64) {
+	timestamp = (sid >> timestampShift) & timestampMax
+	return
+}
+
+// 获取创建ID的时间戳
+func GetGenTimestamp(sid int64) (timestamp int64) {
+	t := GetTimestamp(sid)
+	timestamp = t + epoch
+	return
+}
+
+// 获取创建ID的时间字符串(精度：秒)
+func GetGenTime(sid int64) (t string) {
+	// 需将GetGenTimestamp获取的时间戳/1000转换成秒
+	t = time.Unix(GetGenTimestamp(sid)/1000, 0).Format("2006-01-02 15:04:05")
+	return
+}
+
+// 获取时间戳已使用的占比：范围（0.0 - 1.0）
+func GetTimestampStatus() (state float64) {
+	state = float64((time.Now().UnixNano()/1000000 - epoch)) / float64(timestampMax)
+	return
 }
