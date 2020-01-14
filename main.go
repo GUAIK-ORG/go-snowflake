@@ -14,7 +14,7 @@ func main() {
 				glog.Error(err)
 				return
 			}
-			// 每个机器id生成53sid
+			// 每个机器id生成2个sid
 			for z := 0; z < 2; z++ {
 				val := s.NextVal()
 				if val == 0 {

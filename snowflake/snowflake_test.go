@@ -1,6 +1,7 @@
 package snowflake
 
 import (
+	"sync"
 	"testing"
 )
 
@@ -28,6 +29,32 @@ func TestNextVal(t *testing.T) {
 			t.Fail()
 		}
 	}
+}
+
+func TestUnique(t *testing.T) {
+	var wg sync.WaitGroup
+	var check sync.Map
+	s, err := NewSnowflake(0, 0)
+	if err != nil {
+		t.Error(err)
+	}
+	for i := 0; i < 1000000; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Add(-1)
+			val := s.NextVal()
+			if _, ok := check.Load(val); ok {
+				t.Fail()
+				return
+			}
+			check.Store(val, 0)
+			if val == 0 {
+				t.Fail()
+				return
+			}
+		}()
+	}
+	wg.Wait()
 }
 
 func TestGetDeviceID(t *testing.T) {

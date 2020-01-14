@@ -47,8 +47,8 @@ func NewSnowflake(datacenterid, workerid int64) (*Snowflake, error) {
 }
 
 func (s *Snowflake) NextVal() int64 {
-	now := time.Now().UnixNano() / 1000000 // 转毫秒
 	s.Lock()
+	now := time.Now().UnixNano() / 1000000 // 转毫秒
 	if s.timestamp == now {
 		// 当同一时间戳（精度：毫秒）下多次生成id会增加序列号
 		s.sequence = (s.sequence + 1) & sequenceMask
