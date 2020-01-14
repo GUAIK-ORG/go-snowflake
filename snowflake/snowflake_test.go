@@ -57,6 +57,15 @@ func TestUnique(t *testing.T) {
 	wg.Wait()
 }
 
+func TestGetTime(t *testing.T) {
+	s, err := NewSnowflake(0, 1)
+	if err != nil {
+		t.Error(err)
+	}
+	val := s.NextVal()
+	t.Logf("time:%v", GetGenTime(val))
+}
+
 func TestGetDeviceID(t *testing.T) {
 	s, err := NewSnowflake(28, 11)
 	if err != nil {

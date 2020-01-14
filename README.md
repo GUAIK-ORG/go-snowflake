@@ -26,6 +26,10 @@ Twitter设计了Snowflake算法为分布式系统生成ID,Snowflake的id是int64
 
 `go run main.go`
 
+### 测试
+
+`go test -v snowflake/snowflake`
+
 ## 使用说明
 
 ### 创建Snowflake对象
