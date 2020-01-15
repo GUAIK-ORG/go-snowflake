@@ -1,5 +1,7 @@
 # ❄️ GO-Snowflake
 
+[![Build Status](https://travis-ci.com/GUAIK-ORG/go-snowflake.svg?branch=master)](https://travis-ci.com/GUAIK-ORG/go-snowflake)
+
 ## Snowflake简介
 
 在单机系统中我们会使用自增id作为数据的唯一id，自增id在数据库中有利于排序和索引，但是在分布式系统中如果还是利用数据库的自增id会引起冲突，自增id非常容易被爬虫爬取数据。在分布式系统中有使用uuid作为数据唯一id的，但是uuid是一串随机字符串，所以它无法被排序。

@@ -1,12 +1,12 @@
 language: go
 
 go:
-- 1.12.x
+- 1.11.x
 - master
 
 install:
-go get github.com/golang/glog
+- go get github.com/golang/glog
 
 script:
-go test -v snowflake/snowflake
-go run ./main.go
+- go test -v snowflake/snowflake
+- go run ./main.go
