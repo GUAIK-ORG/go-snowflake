@@ -28,6 +28,14 @@ Twitter设计了Snowflake算法为分布式系统生成ID,Snowflake的id是int64
 
 ### 测试
 
+本机测试：
+
+| 参数 | 配置 |
+|---|---|
+| OS | MacBook Pro (13-inch, Late 2016, Four Thunderbolt 3 Ports)|
+| CPU | 2.9 GHz 双核Intel Core i5 |
+| RAM | 8 GB 2133 MHz LPDDR3 |
+
 > 测试代码
 
 ```go
@@ -65,7 +73,7 @@ func TestLoad() {
 
 > 运行结果
 
-![ab-load](https://gitee.com/GuaikOrg/go-snowflake/raw/master/docs/load.png)
+![load](https://gitee.com/GuaikOrg/go-snowflake/raw/master/docs/load.png)
 
 ## 使用说明
 
