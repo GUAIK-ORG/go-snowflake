@@ -4,9 +4,10 @@ import (
 	"flag"
 	"fmt"
 	"runtime"
-	"snowflake/snowflake"
 	"sync"
 	"time"
+
+	"github.com/GUAIK-ORG/go-snowflake/snowflake"
 
 	"github.com/golang/glog"
 )
@@ -42,6 +43,19 @@ func TestLoad() {
 	glog.Infof("generate 20k ids elapsed: %v", elapsed)
 }
 
+func TestGenID() {
+	s, err := snowflake.NewSnowflake(int64(0), int64(0))
+	if err != nil {
+		glog.Error(err)
+		return
+	}
+	for i := 0; i < 5; i++ {
+		val := s.NextVal()
+		glog.Infof("id: %v, time:%v", val, snowflake.GetGenTime(val))
+	}
+
+}
+
 func main() {
 	flag.Set("alsologtostderr", "true")
 	flag.Set("log_dir", "/log")
@@ -51,6 +65,7 @@ func main() {
 		glog.Flush()
 	}()
 	runtime.GOMAXPROCS(runtime.NumCPU())
+	TestGenID()
 	// 测试生成20万id的速度
 	TestLoad()
 	// 获取时间戳字段已经使用的占比（0.0 - 1.0）

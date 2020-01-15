@@ -1,4 +1,4 @@
-module snowflake
+module github.com/GUAIK-ORG/go-snowflake
 
 go 1.12
 
