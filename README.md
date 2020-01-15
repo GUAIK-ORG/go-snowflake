@@ -28,7 +28,43 @@ Twitter设计了Snowflake算法为分布式系统生成ID,Snowflake的id是int64
 
 ### 测试
 
-`go test -v snowflake/snowflake`
+> 测试代码
+
+```go
+func TestLoad() {
+    var wg sync.WaitGroup
+    s, err := snowflake.NewSnowflake(int64(0), int64(0))
+    if err != nil {
+        glog.Error(err)
+        return
+    }
+    var check sync.Map
+    t1 := time.Now()
+    for i := 0; i < 200000; i++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            val := s.NextVal()
+            if _, ok := check.Load(val); ok {
+                // id冲突检查
+                glog.Error(fmt.Errorf("error#unique: val:%v", val))
+                return
+            }
+            check.Store(val, 0)
+            if val == 0 {
+                glog.Error(fmt.Errorf("error"))
+                return
+            }
+        }()
+    }
+    wg.Wait()
+    elapsed := time.Since(t1)
+    glog.Infof("generate 20k ids elapsed: %v", elapsed)
+}
+```
+
+> 运行结果
+![ab-load](https://gitee.com/GuaikOrg/go-snowflake/raw/master/docs/load.png)
 
 ## 使用说明
 
