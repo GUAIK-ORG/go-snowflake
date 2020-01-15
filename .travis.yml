@@ -1,20 +1,25 @@
 language: go
 
-go:
-- 1.11.x
-- master
+matrix:
+  fast_finish: true
+  include:
+  - go: 1.11.x
+    env: GO111MODULE=on
+  - go: 1.12.x
+    env: GO111MODULE=on
+  - go: 1.13.x
+  - go: 1.13.x
+    env: 
+      - TESTTAGS=nomsgpack
+  - go: master
 
-os:
-- linux
-- osx
-- windows
-
-dist: trusty
-sudo: false
+before_install:
+  - if [[ "${GO111MODULE}" = "on" ]]; then go mod snowflake; fi
+  - if [[ "${GO111MODULE}" = "on" ]]; then export PATH="${GOPATH}/bin:${GOROOT}/bin:${PATH}"; fi
 
 install:
-- go get github.com/golang/glog
+  - go get github.com/golang/glog
 
 script:
-- go test -v ./snowflake/snowflake
-- go run ./main.go
+  - go test -v ./snowflake
+  - go run ./main.go
