@@ -64,6 +64,7 @@ func TestLoad() {
 ```
 
 > 运行结果
+
 ![ab-load](https://gitee.com/GuaikOrg/go-snowflake/raw/master/docs/load.png)
 
 ## 使用说明
