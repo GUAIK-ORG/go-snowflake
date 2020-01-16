@@ -18,17 +18,30 @@ Twitter设计了Snowflake算法为分布式系统生成ID,Snowflake的id是int64
 
 ---
 
-## 快速开始
+## 🚀 快速开始
 
-### 安装
+### 🕹 克隆 & 运行
 
-`git clone https://github.com/GUAIK-ORG/go-snowflake.git`
+```bash
+git clone https://github.com/GUAIK-ORG/go-snowflake.git
 
-### 运行
+go run main.go
+```
 
-`go run main.go`
+### 💾 安装 & 导入
 
-### 测试
+```go
+go get github.com/GUAIK-ORG/go-snowflake
+
+// 在项目中导入模块
+import "github.com/GUAIK-ORG/go-snowflake/snowflake"
+```
+
+### ⚠️注意事项
+
+* 在多实例（多个snowflake对象）的并发环境下，请确保每个实例（datacenterid，workerid）的唯一性，否则生成的ID可能冲突。
+
+### 📊 测试
 
 本机测试：
 
@@ -77,7 +90,7 @@ func TestLoad() {
 
 ![load](https://gitee.com/GuaikOrg/go-snowflake/raw/master/docs/load.png)
 
-## 使用说明
+## 🗂 使用说明
 
 ### 创建Snowflake对象
 
