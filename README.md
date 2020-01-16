@@ -30,7 +30,7 @@ go run main.go
 
 ### 💾 安装 & 导入
 
-```go
+```bash
 go get github.com/GUAIK-ORG/go-snowflake
 
 // 在项目中导入模块
